@@ -9,6 +9,27 @@ Make a GET request to confirm that your user information has been saved.
 
 '''
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
 import requests
 from pprint import pprint
 
@@ -25,3 +46,4 @@ post_to_server = requests.post(url, json=body)
 response = requests.get(url)
 
 pprint(response.content)
+'''

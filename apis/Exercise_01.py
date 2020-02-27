@@ -9,6 +9,33 @@ Print out:
     - the encoding of the response
     - the text of the response body
 
+'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 '''
@@ -25,3 +52,4 @@ server_response = requests.get(url)
 # print(server_response.status_code)
 # print(server_response.encoding)
 pprint(server_response.content)
+'''

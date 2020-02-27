@@ -5,6 +5,29 @@ Again, make a GET request to confirm that information has been deleted.
 
 '''
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
 import requests
 
 url = "http://demo.codingnomads.co:8080/tasks_api/users"
@@ -22,4 +45,4 @@ print(delete_to_server_80.status_code)
 print(delete_to_server_81.status_code)
 
 # works several times but after running one times there are no elements with this id's anymore?!
-
+'''

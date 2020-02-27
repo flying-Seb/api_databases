@@ -5,6 +5,34 @@ Again make a GET request to confirm that your information has been updated.
 
 '''
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
 import requests
 from pprint import pprint
 
@@ -22,3 +50,4 @@ put_to_server = requests.put(url, json=body)
 response = requests.get(url)
 
 pprint(response.status_code)
+'''

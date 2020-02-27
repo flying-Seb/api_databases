@@ -4,6 +4,35 @@ the list to the console.
 
 '''
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
 import requests
 from pprint import pprint
 
@@ -22,5 +51,5 @@ for user in server_response["data"]:
 
 
 pprint(email_adresses)
-
+'''
 
