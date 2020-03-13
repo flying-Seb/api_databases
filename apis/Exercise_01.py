@@ -1,55 +1,33 @@
 '''
-Using the requests package, make a GET request to the api behind this endpoint:
+Using the requests package, make a GET request to the API behind this endpoint:
 
     http://demo.codingnomads.co:8080/tasks_api/users
+
 
 Print out:
 
     - the status code
     - the encoding of the response
     - the text of the response body
-
 '''
 
+# https://api.coingecko.com/api/v3  --> for coingecko application; wallet calculator
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-'''
-# ask Johnny about setting up a venv for every new project in the same folder?
-# activate every time before starting to work??
 
 import requests
 from pprint import pprint
 
-url = "http://demo.codingnomads.co:8080/tasks_api/users"
+base_url = "http://demo.codingnomads.co:8080/tasks_api/users"
+response = requests.get(base_url)
 
-server_response = requests.get(url)
-
-# print(server_response.status_code)
-# print(server_response.encoding)
-pprint(server_response.content)
+print("--------------")
+print("Status code: ", response.status_code)
+print("--------------")
+print("Encoding: ", response.encoding)
+print("--------------")
+print("Content:"), pprint(response.content)
+'''
+test_url = "https://api.coingecko.com/api/v3"
+response_coin = requests.get(test_url)
+print(response_coin.status_code)  # --> 404 bad request
 '''

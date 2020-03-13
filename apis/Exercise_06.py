@@ -16,4 +16,4 @@ It is your responsibility to build out the application to handle all menu option
 
 '''
 
-# talk to Johnny about this
+# just start! trial and error
