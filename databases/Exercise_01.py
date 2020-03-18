@@ -6,20 +6,15 @@ Using the provided database schema, write the necessary code to print informatio
 
 '''
 
-
 import sqlalchemy
 import pymysql
 
-
-engine = sqlalchemy.create_engine('mysql+pymysql://root:123__UmWeLT??GO!@localhost/sakila')
+engine = sqlalchemy.create_engine('mysql+pymysql://root:password@localhost/sakila')
 connection = engine.connect()
-meta_data = sqlalchemy.MetaData()
-actor = sqlalchemy.Table('actor', meta_data, autoload=True, autoload_with=engine)
-film = sqlalchemy.Table('film', meta_data, autoload=True, autoload_with=engine)
-category = sqlalchemy.Table('category', meta_data, autoload=True, autoload_with=engine)
+metadata = sqlalchemy.MetaData()
+film = sqlalchemy.Table('film', metadata, autoload=True, autoload_with=engine)
+category = sqlalchemy.Table('category', metadata, autoload=True, autoload_with=engine)
 
-print(actor.columns.keys())
 print(film.columns.keys())
 print(category.columns.keys())
-
 
