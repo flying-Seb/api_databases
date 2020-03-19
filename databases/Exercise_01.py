@@ -9,7 +9,7 @@ Using the provided database schema, write the necessary code to print informatio
 import sqlalchemy
 import pymysql
 
-engine = sqlalchemy.create_engine('mysql+pymysql://root:password@localhost/sakila')
+engine = sqlalchemy.create_engine('mysql+pymysql://user:password@localhost/sakila')
 connection = engine.connect()
 metadata = sqlalchemy.MetaData()
 film = sqlalchemy.Table('film', metadata, autoload=True, autoload_with=engine)

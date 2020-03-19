@@ -18,7 +18,7 @@ from pprint import pprint
 
 # setup engine and connection for all tasks
 
-engine = sqlalchemy.create_engine('mysql+pymysql://root:password@localhost/sakila')
+engine = sqlalchemy.create_engine('mysql+pymysql://user:password@localhost/sakila')
 connection = engine.connect()
 metadata = sqlalchemy.MetaData()
 
