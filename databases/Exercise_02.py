@@ -11,7 +11,7 @@ Consider each of the tasks below as a separate database query. Using SQLAlchemy,
 
 '''
 
-from sqlalchemy import desc
+from sqlalchemy import desc, func
 import sqlalchemy
 import pymysql
 from pprint import pprint
@@ -41,8 +41,8 @@ join_statement = actor.join(film_actor, film_actor.columns.actor_id == actor.col
                  join(film, film.columns.film_id == film_actor.columns.film_id)
 
 # select statement of the join statement
-query = sqlalchemy.select([film.columns.film_id, film.columns.title, actor.columns.first_name, actor.columns.last_name]).\
-        select_from(join_statement)
+query = sqlalchemy.select([film.columns.film_id, film.columns.title, actor.columns.first_name,
+        actor.columns.last_name]).select_from(join_statement)
 
 # execute the query and fetch it
 result_proxy = connection.execute(query)
@@ -80,10 +80,37 @@ pprint(result_set)
 join_statement = category.join(film_cat, film_cat.columns.category_id == category.columns.category_id).\
                  join(film, film.columns.film_id == film_cat.columns.film_id)
 
-query = sqlalchemy.select([category.columns.name, film.columns.title, film.columns.rental_rate]).where(category.columns.\
-        name == 'Comedy').order_by(desc(film.columns.rental_rate)).select_from(join_statement)
+query = sqlalchemy.select([category.columns.name, film.columns.title, film.columns.rental_rate]).\
+        where(category.columns.name == 'Comedy').order_by(desc(film.columns.rental_rate)).select_from(join_statement)
 
 result_proxy = connection.execute(query)
 result_set = result_proxy.fetchall()
 print('Exercise 4)')
 pprint(result_set)
+
+
+''' 5) use a group by statement on one of the statements above '''
+
+# use exercise 4 and group by rental rate, count the film_ids
+query = sqlalchemy.select([category.columns.name, func.count(film.columns.film_id), film.columns.rental_rate]).\
+        where(category.columns.name == 'Comedy').order_by(desc(film.columns.rental_rate)).group_by(film.columns.\
+        rental_rate).select_from(join_statement)
+
+result_proxy = connection.execute(query)
+result_set = result_proxy.fetchall()
+print('Exercise 5)')
+pprint(result_set)
+
+
+''' 6) already did that in 4 and 5 '''
+
+# select the films and order them by length
+
+query = sqlalchemy.select([film.columns.film_id, film.columns.title, film.columns.length]).\
+        order_by(desc(film.columns.length))
+
+result_proxy = connection.execute(query)
+result_set = result_proxy.fetchmany(25)
+print('Exercise 6)')
+pprint(result_set)
+
