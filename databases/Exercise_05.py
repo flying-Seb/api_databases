@@ -1,4 +1,5 @@
 '''
+
 Using the API from the API section, write a program that makes a request to
 get all of the users and all of their tasks.
 
@@ -13,3 +14,4 @@ To prevent this, you should add a check to see if the record already exists befo
 
 '''
 
+# first: paper and pen for architecture!

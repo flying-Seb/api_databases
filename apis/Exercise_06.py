@@ -94,22 +94,6 @@ def verify_byebye(user_input):
         question_afterwards()
 
 
-'''
-def check_completion_task(user_comp):
-    """A function to convert user input whether a task is completed or not"""
-
-    try:
-        if user_comp.lower() == 'y':
-            user_comp = True
-        elif user_comp.lower() == 'n':
-            user_comp = False
-    except ValueError:
-        print("Your input was not correct.")
-    
-    return user_comp
-'''
-
-
 # done
 def create_account_1():
     """A function to create a new user"""
@@ -281,4 +265,7 @@ def question_afterwards():
     verify_byebye(user_input)
 
 
-main()
+# setting name to main if the program is called directly
+if __name__ == '__main__':
+    main()
+
