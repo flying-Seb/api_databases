@@ -32,7 +32,7 @@ def create_engine_0():
 
     # take care to get rid of the password before pushing to GH
     global engine
-    engine = sqlalchemy.create_engine('mysql+pymysql://root:123__UmWeLT??GO!@localhost/SocialDB')
+    engine = sqlalchemy.create_engine('mysql+pymysql://user:password@localhost/SocialDB')
     global connection
     connection = engine.connect()
     global metadata
@@ -78,7 +78,7 @@ def menu_action():
     if user_input == 1:
         create_table_1()
     elif user_input == 2:
-        pass
+        insert_data_2()
     elif user_input == 3:
         pass
     elif user_input == 4:
@@ -202,6 +202,10 @@ def create_table_1():
 
 def insert_data_2():
     """A function to insert data in a table"""
+    # ask the user what table to update
+    # tell the user what columns are in this table
+    # for every column: ask for data
+    # create insert table object and create_all(engine)
     pass
 
 
@@ -225,6 +229,7 @@ def select_join_6():
     pass
 
 
+# done
 def exit_app_7():
     """Function to quit"""
     print("See you next time! Bye bye...")
