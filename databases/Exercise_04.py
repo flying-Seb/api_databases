@@ -18,7 +18,7 @@ The more dynamic the application, the better!
 
 import sqlalchemy
 import pymysql
-
+from pprint import pprint
 
 def main():
     # controller for the app
@@ -32,7 +32,7 @@ def create_engine_0():
 
     # take care to get rid of the password before pushing to GH
     global engine
-    engine = sqlalchemy.create_engine('mysql+pymysql://user:pw@localhost/SocialDB')
+    engine = sqlalchemy.create_engine('mysql+pymysql://root:pw@localhost/SocialDB')
     global connection
     connection = engine.connect()
     global metadata
@@ -260,6 +260,7 @@ def update_data_3():
     return
 
 
+# done
 def select_data_4():
     """A function to select data from a table"""
     # ask user what table to select from and save it to a var
@@ -277,8 +278,13 @@ def select_data_4():
     print(f"The columns of the table {user_table} are:" )
     print(col_all)
 
-    # create query with user_table and put them in a list
-    # print every item of the list as a row
+    query = sqlalchemy.select([newTable])
+    result_proxy = connection.execute(query)
+    result = result_proxy.fetchall()
+    for item in result:
+        print(item)
+
+    question_afterwards()
     return
 
 
