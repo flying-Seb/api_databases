@@ -32,7 +32,7 @@ def create_engine_0():
 
     # take care to get rid of the password before pushing to GH
     global engine
-    engine = sqlalchemy.create_engine('mysql+pymysql://user:password@localhost/SocialDB')
+    engine = sqlalchemy.create_engine('mysql+pymysql://user:pw@localhost/SocialDB')
     global connection
     connection = engine.connect()
     global metadata
@@ -62,7 +62,7 @@ def menu_action():
         "\n"
         "3) Update data in a table\n"
         "\n"
-        "4) Select data from a table\n"
+        "4) Select all data from a table\n"
         "\n"
         "5) Delete data from a table\n"
         "\n"
@@ -80,9 +80,9 @@ def menu_action():
     elif user_input == 2:
         insert_data_2()
     elif user_input == 3:
-        pass
+        update_data_3()
     elif user_input == 4:
-        pass
+        select_data_4()
     elif user_input == 5:
         pass
     elif user_input == 6:
@@ -191,32 +191,95 @@ def create_table_1():
                                     sqlalchemy.Column(user_col2, build_column(us_type2)),
                                     sqlalchemy.Column(user_col3, build_column(us_type3)),
                                     )
-
         metadata.create_all(engine)
+
         # since create_all checks if a table already exists you don't have to check that separately
         question_afterwards()
     except:
         print("This table already exists. Please try again.")
-        create_table_1()
+        menu_action()
 
 
+# done
 def insert_data_2():
     """A function to insert data in a table"""
-    # ask the user what table to update
-    # tell the user what columns are in this table
-    # for every column: ask for data
-    # create insert table object and create_all(engine)
-    pass
+
+    user_insert = input("You want to insert data in a table. In which table you want to insert in? ")
+    "\n"
+    print("See the columns of your chosen table: ")
+    "\n"
+    # build table object for the table to insert (create first, loop second)
+    newTable = sqlalchemy.Table(user_insert, metadata, autoload=True, autoload_with=engine)
+    # create_all(engine) to actually use newTable
+    metadata.create_all(engine)
+    # loop trough the columns to show the user where to insert data to
+    for c in newTable.columns:
+        print(f'* {c}')
+        "\n"
+    user_col1 = input("Please enter the value for the first column: ")
+    user_col2 = input("Please enter the value for the second column: ")
+    user_col3 = input("Please enter the value for the third column: ")
+    user_col4 = input("Please enter the value for the fourth column: ")
+
+    query = sqlalchemy.insert(newTable).values(Id=user_col1, first=user_col2, last=user_col3, friends=user_col4)
+
+    # result_proxy to execute the query
+    result_proxy = connection.execute(query)
+
+    question_afterwards()
+    return
 
 
+# done
 def update_data_3():
     """A function to update data in a table"""
-    pass
+
+    user_insert = input("You want to update data in a table. What table you want to update? ")
+    "\n"
+    print("See the columns of your chosen table: ")
+    "\n"
+    # build table object for the table to insert (create first, loop second)
+    newTable = sqlalchemy.Table(user_insert, metadata, autoload=True, autoload_with=engine)
+    # create_all(engine) to actually use newTable
+    metadata.create_all(engine)
+    # loop trough the columns to show the user where to update the data
+    for c in newTable.columns:
+        print(f'* {c}')
+
+    user_insert = input("What ID do you want to update? ")
+    "\n"
+    print("Thanks for your input. Please enter the new values. ")
+    user_val1 = input("Please enter the new value for the second column: ")
+    user_val2 = input("Please enter the new value for the third column: ")
+    user_val3 = input("Please enter the new value for the fourth column: ")
+
+    query = sqlalchemy.update(newTable).values(first=user_val1, last=user_val2, friends=user_val3).where\
+            (newTable.columns.Id == user_insert)
+    result_proxy = connection.execute(query)
+    question_afterwards()
+    return
 
 
 def select_data_4():
     """A function to select data from a table"""
-    pass
+    # ask user what table to select from and save it to a var
+    # print the columns in one line
+    # print the data in one line
+    user_table = input("What table to do you want to select data from? ")
+    newTable = sqlalchemy.Table(user_table, metadata, autoload=True, autoload_with=engine)
+    # print the columns in one string
+    col_all = ""
+    columns_user_table = [c for c in newTable.columns]
+    for col in columns_user_table:
+        col_all = col_all + f"{col}, "
+    # remove the last space and comma from the string
+    col_all = col_all[:-2]
+    print(f"The columns of the table {user_table} are:" )
+    print(col_all)
+
+    # create query with user_table and put them in a list
+    # print every item of the list as a row
+    return
 
 
 def delete_data_5():
