@@ -16,23 +16,25 @@ The more dynamic the application, the better!
 
 '''
 
+# maybe work with args* and kwargs** as an input from the user to make the tables more individual
+# do that in the capstone! and use django as well in the capstone!
+
 import sqlalchemy
 import pymysql
 from pprint import pprint
 
 def main():
-    # controller for the app
+    '''controller for the application'''
     create_engine_0()
     menu_action()
 
 
 # done
 def create_engine_0():
-    # create the engine to connect to the database
+    '''Create the engine to connect to the database'''
 
-    # take care to get rid of the password before pushing to GH
     global engine
-    engine = sqlalchemy.create_engine('mysql+pymysql://root:pw@localhost/SocialDB')
+    engine = sqlalchemy.create_engine('mysql+pymysql://user:pw@localhost/SocialDB')
     global connection
     connection = engine.connect()
     global metadata
@@ -40,6 +42,7 @@ def create_engine_0():
     return engine, connection, metadata
 
 
+# done
 def menu_action():
     """A function for the menu and the program logic"""
 
@@ -66,9 +69,7 @@ def menu_action():
         "\n"
         "5) Delete data from a table\n"
         "\n"
-        "6) Use a join statement\n"
-        "\n"
-        "7) Exit the application\n"
+        "6) Exit the application\n"
         "\n"
     )
     user_input = int(input("What do you want to do? --> "))  # strings throw an error right here!
@@ -84,11 +85,9 @@ def menu_action():
     elif user_input == 4:
         select_data_4()
     elif user_input == 5:
-        pass
+        delete_data_5()
     elif user_input == 6:
-        pass
-    elif user_input == 7:
-        exit_app_7()
+        exit_app_6()
     else:
         print("Whooops! Something went terribly wrong!")
     return
@@ -99,7 +98,7 @@ def verify_input(user_input):  # still don't know what to do with strings!
     """A function to verify that the user input is a correct number of the menu"""
 
     try:
-        if 0 < user_input < 8:
+        if 0 < user_input < 7:
             "----------------------------------------\n"
             "\n"
             print("Thank you for your input!")
@@ -123,7 +122,7 @@ def verify_byebye(user_input):
         if user_input.lower() == 'm':
             menu_action()
         elif user_input.lower() == 'e':
-            exit_app_7()
+            exit_app_6()
     except ValueError:
         "\n"
         print("That is not what I expected. Please try again.")
@@ -263,9 +262,7 @@ def update_data_3():
 # done
 def select_data_4():
     """A function to select data from a table"""
-    # ask user what table to select from and save it to a var
-    # print the columns in one line
-    # print the data in one line
+
     user_table = input("What table to do you want to select data from? ")
     newTable = sqlalchemy.Table(user_table, metadata, autoload=True, autoload_with=engine)
     # print the columns in one string
@@ -288,18 +285,29 @@ def select_data_4():
     return
 
 
+# done
 def delete_data_5():
     """A function to delete data from a table"""
-    pass
 
+    print("You want to delete all data from a table. Here is a list with all the tables in the SocialDatabase: ")
+    tables = engine.table_names()
+    for table in tables:
+        print(f"* {table}")
+    "\n"
+    user_input = input("Please name the table you want to delete: ")
 
-def select_join_6():
-    """Use a join in a select statement"""
-    pass
+    newTable = sqlalchemy.Table(user_input, metadata, autoload=True, autoload_with=engine)
+
+    query = sqlalchemy.delete(newTable)
+
+    result = connection.execute(query)
+
+    question_afterwards()
+    return
 
 
 # done
-def exit_app_7():
+def exit_app_6():
     """Function to quit"""
     print("See you next time! Bye bye...")
 
