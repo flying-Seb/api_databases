@@ -14,4 +14,13 @@ To prevent this, you should add a check to see if the record already exists befo
 
 '''
 
-# first: paper and pen for architecture!
+# first: paper and pen for architecture! --> done
+# database created over the CLI
+
+import requests
+from pprint import pprint
+
+
+# setting name to main if the program is called directly
+if __name__ == '__main__':
+    main()
