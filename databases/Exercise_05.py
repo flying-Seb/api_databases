@@ -16,14 +16,42 @@ To prevent this, you should add a check to see if the record already exists befo
 
 # first: paper and pen for architecture! --> done
 # database created over the CLI --> done
+# create connection to db. setup login credentials for mysql in a separate file as environment variables --> done
 # requests.get all users and all tasks from API --> done
+# insert all users and all tasks in tables of db --> STILL OPEN
+# before inserting: check if data already exists [try/except] --> STILL OPEN
 
 import requests
+import pymysql
+import sqlalchemy
 from pprint import pprint
 import json
+import os
 
 users_url = "http://demo.codingnomads.co:8080/tasks_api/users"
 tasks_url = "http://demo.codingnomads.co:8080/tasks_api/tasks"
+
+
+def main():
+    connect_db()
+
+
+def connect_db():
+    """setting up the connection to the database"""
+
+    user = os.environ['USER']
+    pw = os.environ['PW']
+
+    # try to connect with dev.env file for username and pw
+    engine = sqlalchemy.create_engine(f'mysql+pymysql://{user}:{pw}@localhost/CodingNomads_API')
+    connection = engine.connect()
+    metadata = sqlalchemy.MetaData()
+
+    # create table objects for every table in the db
+    user_table = sqlalchemy.Table('Users', metadata, autoload=True, autoload_with=engine)
+    tasks_table = sqlalchemy.Table('Tasks', metadata, autoload=True, autoload_with=engine)
+    user_task_table = sqlalchemy.Table('user_task', metadata, autoload=True, autoload_with=engine)
+    return
 
 
 def get_users():
@@ -42,15 +70,6 @@ def get_tasks():
     return all_tasks
 
 
-all_users = get_users()
-all_tasks = get_tasks()
-
-pprint(all_users)
-print("/n")
-print("---------------------------------------------")
-print("/n")
-pprint(all_tasks)
-
 # setting name to main if the program is called directly
-# if __name__ == '__main__':
-#    main()
+if __name__ == '__main__':
+    main()
