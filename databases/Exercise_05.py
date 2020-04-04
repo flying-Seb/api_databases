@@ -18,7 +18,8 @@ To prevent this, you should add a check to see if the record already exists befo
 # database created over the CLI --> done
 # create connection to db. setup login credentials for mysql in a separate file as environment variables --> done
 # requests.get all users and all tasks from API --> done
-# insert all users and all tasks in tables of db --> STILL OPEN
+# insert all users and all tasks in tables of db --> STILL OPEN (pending)
+# check how to fill lookup table user_task --> STILL OPEN
 # before inserting: check if data already exists [try/except] --> STILL OPEN
 
 import requests
@@ -34,6 +35,38 @@ tasks_url = "http://demo.codingnomads.co:8080/tasks_api/tasks"
 
 def main():
     connect_db()
+    insert_users_db()
+    insert_tasks_db()
+
+
+def insert_users_db():
+    """A function to setup a query and save the users data from the API in tables of the db"""
+    # create table object for Users table
+    users_table = sqlalchemy.Table('Users', metadata, autoload=True, autoload_with=engine)
+
+    # get JSON data from API
+    json_data = get_users()
+
+    # build query and execute by inserting JSON
+    query = sqlalchemy.insert(users_table)
+
+    # store every user object in a list which is then passed into the
+    result_proxy = connection.execute(query, json_data['data'])
+    return
+
+
+def insert_tasks_db():
+    """A function to setup a query and save the tasks data from the API in the tables of the db"""
+    # create table object for Tasks table
+    tasks_table = sqlalchemy.Table('Tasks', metadata, autoload=True, autoload_with=engine)
+
+    # get JSON data from API
+    json_data = get_tasks()
+
+    # build query and execute by inserting JSON
+    query = sqlalchemy.insert(tasks_table)
+    result_proxy = connection.execute(query, json_data['data'])
+    return
 
 
 def connect_db():
@@ -43,15 +76,17 @@ def connect_db():
     pw = os.environ['PW']
 
     # try to connect with dev.env file for username and pw
-    engine = sqlalchemy.create_engine(f'mysql+pymysql://{user}:{pw}@localhost/CodingNomads_API')
+    global engine
+    engine = sqlalchemy.create_engine(f'mysql+pymysql://{user}:{pw}@localhost/API_user_task')
+    global connection
     connection = engine.connect()
+    global metadata
     metadata = sqlalchemy.MetaData()
 
     # create table objects for every table in the db
     user_table = sqlalchemy.Table('Users', metadata, autoload=True, autoload_with=engine)
     tasks_table = sqlalchemy.Table('Tasks', metadata, autoload=True, autoload_with=engine)
-    user_task_table = sqlalchemy.Table('user_task', metadata, autoload=True, autoload_with=engine)
-    return
+    return engine, connection, metadata
 
 
 def get_users():
